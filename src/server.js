@@ -2,9 +2,11 @@ var lunchDarkly = require('./LunchDarkly');
 var express = require('express');
 var app = express();
 
+var port = 4000;
+
+
 //localhost:3000/toggle/feature/flag-boolean/firm/firmName/user/userName
 //localhost:3000/toggle/feature/flag-multivariate/firm/firmName/user/userName
-
 app.get('/toggle/feature/:featureName/firm/:fname/user/:uname', function (req, res) {
 
     var feature = req.params.featureName;
@@ -21,8 +23,8 @@ app.get('/toggle/feature/:featureName/firm/:fname/user/:uname', function (req, r
    
 });
 
-app.listen(3000, function () {
-    console.log('Listening on port 3000!');
+app.listen(port, function () {
+    console.log('Listening on port ' + port);
 });
 
 
@@ -32,5 +34,9 @@ var gracefulShutdown = function() {
     process.exit();
 };
 
+
 // listen for TERM signal .e.g. kill 
+process.on ('SIGTERM', gracefulShutdown);
+
+// listen for INT signal .e.g. kill 
 process.on ('SIGINT', gracefulShutdown);
